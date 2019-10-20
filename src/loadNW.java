@@ -1,15 +1,18 @@
+
+/**
+ *
+ */
 public class loadNW {
     char[][] board = new char[10][10];
 
-    /*
-    *default constructor
+    /**
+     * default constructor
      */
     loadNW(){
 
     }
 
     public void loadBoard(){
-
         for(int i = 0; i< 10; i++){
             for(int j = 0; j < 10; j++){
                 board[i][j] = '-';
@@ -39,7 +42,7 @@ public class loadNW {
     }
 
     public void insertShip(String coordinate1, String coordinate2){
-        
+
 
 
 
