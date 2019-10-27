@@ -25,17 +25,15 @@ public class Main {
         String coordinate1 = sc.next();
         String coordinate2 = sc.next();
 
+        load.insertShip(coordinate1, coordinate2);
+
         System.out.println(coordinate1 + " " + coordinate2);
 
+       // load.printBoard();
 
 
 
 
-
-
-        
-        
-        
         /*
         Scanner sc = new Scanner(System.in);
         FileInputStream in = new FileInputStream("highScore.txt");
@@ -51,9 +49,5 @@ public class Main {
 
         }
 */
-
-
-
     }
-
 }
