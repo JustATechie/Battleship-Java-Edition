@@ -5,7 +5,7 @@ package com.justatechie.battleship;
  *
  * @author Jonathan Augustine
  */
-public final class Ship {
+public class Ship {
 
     private final String name;
     private final char symbol;
@@ -29,31 +29,31 @@ public final class Ship {
         return this.length;
     }
 
-    public final class Carrier extends Ship {
+    public static final class Carrier extends Ship {
         public Carrier() {
             super("Carrier", 5);
         }
     }
 
-    public final class Battleship extends Ship {
+    public static final class Battleship extends Ship {
         public Battleship() {
             super("Battleship", 4);
         }
     }
 
-    public final class Destroyer extends Ship {
+    public static final class Destroyer extends Ship {
         public Destroyer() {
             super("Destroyer", 3);
         }
     }
 
-    public final class Submarine extends Ship {
+    public static final class Submarine extends Ship {
         public Submarine() {
             super("Submarine", 3);
         }
     }
 
-    public final class PatrolBoat extends Ship {
+    public static final class PatrolBoat extends Ship {
         public PatrolBoat() {
             super("PatrolBoat", 2);
         }

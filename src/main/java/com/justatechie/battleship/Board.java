@@ -1,7 +1,5 @@
 package com.justatechie.battleship;
 
-com.justatechie.battleship.Ship;
-
 /**
 *
 */
@@ -33,11 +31,11 @@ public class Board {
      * with hypens.
      */
     protected void init() {
-        this.board = new char[10][10];
+        this.board = new char[this.size][this.size];
 
         // Fill board grid with defaults `-`
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+        for (int i = 0; i < this.size; i++) {
+            for (int j = 0; j < this.size; j++) {
                 board[i][j] = '-';
             }
         }
@@ -50,20 +48,23 @@ public class Board {
      * @param ship
      * @param start
      * @param end
-     * @return `true` if the ship placement is valid
+     * @throws IllegalArgumentException is invalid
      */
-    protected boolean validatePlacement(Ship ship, String start, String end) {
+    protected void validatePlacement(Ship ship, String start, String end) {
+
+        start = start.toUpperCase();
+        end = end.toUpperCase();
 
         // Validate coordinates
         if (!(start.matches(Board.coordinatePattern) || end.matches(Board.coordinatePattern))) {
-            return false;
+            throw new IllegalArgumentException();
         }
 
         boolean col = start.charAt(0) == end.charAt(0);
-        boolean row = start.charAt(1) == start.charAt(1);
+        boolean row = start.charAt(1) == end.charAt(1);
         // validate that points are straight && are not the same point
-        if (col ^ row /* col XOR row */) {
-            return false;
+        if (!(col ^ row) /* col XOR row */) {
+            throw new IllegalArgumentException("Row=" + row + " & Col=" + col);
         }
 
         // Validate distance
@@ -76,30 +77,65 @@ public class Board {
 
         // TODO! deny overlapping with other ships
 
-        return Math.abs(dist) == ship.getLength();
+        if (Math.abs(dist) + 1 != ship.getLength()) {
+            throw new IllegalArgumentException();
+        }
 
     }
 
-    public addShip(Ship ship, String start, String end) {
-        
+    public void addShip(Ship ship, String start, String end) {
+        validatePlacement(ship, start, end);
+        start = start.toUpperCase();
+        end = end.toUpperCase();
+
+        boolean col = start.charAt(0) == end.charAt(0);
+
+        if (col) {
+            int c = Board.alpha.indexOf(start.charAt(0));
+            int s = Integer.parseInt(String.valueOf(start.charAt(1))) - 1;
+            int e = Integer.parseInt(String.valueOf(end.charAt(1))) - 1;
+            for (; s <= e; s++) {
+                this.board[s][c] = ship.getSymbol();
+            }
+        } else {
+            int r = Integer.parseInt(String.valueOf(start.charAt(1))) - 1;
+            int s = Board.alpha.indexOf(start.charAt(0));
+            int e = Board.alpha.indexOf(end.charAt(0));
+            for (; s <= e; s++) {
+                this.board[r][s] = ship.getSymbol();
+            }
+        }
     }
 
-    public void printBoard() {
+    public void printConsole() {
 
         // Print col names
-        for (int k = 0; k < 10; k++) {
-            System.out.print("\t" + Board.alpha.charAt(k));
+        System.out.print("\t");
+        for (int k = 0; k < this.size; k++) {
+            System.out.print(Board.alpha.charAt(k) + "  ");
         }
         System.out.println();
 
         // TODO? convert unicode values into letters.
 
-        for (int i = 0; i < 10; i++) { // column
-            System.out.print(i + 1 + "\t");
-            for (int j = 0; j < 10; j++) { // row
-                System.out.print(board[i][j] + "\t");
+        for (int r = 0; r < this.size; r++) { // row
+
+            System.out.print(r + 1 + "\t"); // Print row names
+
+            for (int c = 0; c < this.size; c++) { // col
+
+                String rSpacer = "  ";
+
+                if (c < this.size - 1 && this.board[r][c] != '-' && this.board[r][c + 1] != '-') {
+                    rSpacer = "--";
+                }
+
+                System.out.print(board[r][c] + rSpacer);
+
             }
+
             System.out.println();
+
         }
     }
 
