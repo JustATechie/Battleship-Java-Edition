@@ -38,27 +38,6 @@ public class loadNW {
     }
 
 
-  /*  public void printBoard(){
-        int letters = 65;
-
-        for (int k = 0; k < 10; k++){
-            char letter = (char)letters;
-            System.out.print("\t" + letter);
-            letters = letters + 1;
-        }
-        System.out.println();
-
-        for(int i = 0; i < 10; i++) {  //column
-            System.out.print(i + 1 + "\t");
-            for (int j = 0; j < 10; j++) { //row
-                System.out.print(board[i][j] + "\t");
-            }
-            System.out.println();
-        }
-    }
-
-    */
-
     public void insertShip(String coordinate1, String coordinate2){
         char firstColumnChar = coordinate1.charAt(0);
         int firstRowNumber = coordinate1.charAt(1);
