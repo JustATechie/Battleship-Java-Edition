@@ -65,7 +65,7 @@ public class Board {
         // Validate distance
         int dist;
         if (col) {
-            dist = Integer.parseInt(start.substring(1, 2)) - Integer.parseInt(end.substring(1, 2));
+            dist = Integer.parseInt(start.substring(1)) - Integer.parseInt(end.substring(1));
         } else {
             dist = Board.alpha.indexOf(start.charAt(0)) - Board.alpha.indexOf(end.charAt(0));
         }

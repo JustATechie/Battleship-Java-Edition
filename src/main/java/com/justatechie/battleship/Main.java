@@ -14,10 +14,11 @@ public class Main {
 
         board.printConsole();
 
-        board.addShip(new Ship.Carrier(), "A1", "a5");
+        board.addShip(new Ship.Carrier(), "A1", "A5");
         board.addShip(new Ship.Submarine(), "H1", "J1");
         board.addShip(new Ship.Battleship(), "F9", "F6");
         board.addShip(new Ship.Destroyer(), "A10", "C10");
+        board.addShip(new Ship.PatrolBoat(), "J9", "J10");
 
         board.printConsole();
 
