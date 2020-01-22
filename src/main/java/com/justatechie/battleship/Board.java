@@ -46,7 +46,6 @@ public class Board {
      * @throws IllegalArgumentException is invalid
      */
     protected void validatePlacement(Ship ship, String start, String end) {
-
         start = start.toUpperCase();
         end = end.toUpperCase();
 
@@ -70,12 +69,56 @@ public class Board {
             dist = Board.alpha.indexOf(start.charAt(0)) - Board.alpha.indexOf(end.charAt(0));
         }
 
-        // TODO! deny overlapping with other ships
-
         if (Math.abs(dist) + 1 != ship.getLength()) {
             throw new IllegalArgumentException();
         }
 
+        // TODO! deny overlapping with other ships
+        boolean overlap = false;
+        int startLetter = Board.alpha.indexOf(Character.toString(start.charAt(0)));
+        int startNumber = Integer.parseInt(start.substring(1)) - 1;
+        int endLetter = Board.alpha.indexOf(Character.toString(end.charAt(0)));
+        int endNumber = Integer.parseInt(end.substring(1)) - 1;
+
+        if(col) {
+            //if(startLetter > startNumber) {
+                for (int a = 0; a <= ship.getLength(); a++) {
+                    if (board[endLetter][endNumber - a] != '-') {
+                        throw new IllegalArgumentException("Ships overlap!");
+                    }
+                }
+           // }
+           /* else{
+                for (int a = 0; a < ship.getLength(); a++) {
+                    if (board[startLetter][startNumber + a] != '-') {
+                        throw new IllegalArgumentException("Ships overlap!");
+                    }
+                }
+            }
+            */
+
+
+        }
+        else{
+            //if(startLetter > startNumber) {
+                for (int a = 0; a < ship.getLength(); a++) {
+                    if (board[endLetter - a][endNumber] != '-') {
+                        throw new IllegalArgumentException("Ships overlap!");
+                    }
+                }
+          //  }
+
+          /*  else{
+                for (int a = 0; a < ship.getLength(); a++) {
+                    if (board[startLetter + a][startNumber] != '-') {
+                        throw new IllegalArgumentException("Ships overlap!");
+                    }
+                }
+            }
+
+           */
+
+        }
     }
 
     public void addShip(Ship ship, String start, String end) {
