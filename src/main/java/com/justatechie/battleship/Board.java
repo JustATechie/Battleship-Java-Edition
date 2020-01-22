@@ -82,38 +82,45 @@ public class Board {
         validatePlacement(ship, start, end);
         start = start.toUpperCase();
         end = end.toUpperCase();
-
-        boolean col = start.charAt(0) == end.charAt(0);
+        String startLetter = Character.toString(start.charAt(0));
+        String startNumber = start.substring(1);
+        String endLetter = Character.toString(end.charAt(0));
+        String endNumber = end.substring(1);
+        boolean col = startLetter.equals(endLetter);
 
         if (col) {
-            int c = Board.alpha.indexOf(start.charAt(0));
-            int s = Integer.parseInt(String.valueOf(start.charAt(1))) - 1;
-            int e = Integer.parseInt(String.valueOf(end.charAt(1))) - 1;
-            if (s < e){
+            int c = Board.alpha.indexOf(startLetter);
+            int s = Integer.parseInt(startNumber) - 1;
+            int e = Integer.parseInt(endNumber) - 1;
+
+            if (s < e) {
                 for (; s <= e; s++) {
                     this.board[s][c] = ship.getSymbol();
                 }
             }
+
             else {
                 for (; e <= s; e++) {
                     this.board[e][c] = ship.getSymbol();
                 }
             }
         }
+
         else {
-            int r = Integer.parseInt(String.valueOf(start.charAt(1))) - 1;
-            int s = Board.alpha.indexOf(start.charAt(0));
-            int e = Board.alpha.indexOf(end.charAt(0));
-            if (s < e){
+            int r = Integer.parseInt(startNumber) - 1;
+            int s = Board.alpha.indexOf(startLetter);
+            int e = Board.alpha.indexOf(endLetter);
+
+            if (s < e) {
                 for (; s <= e; s++) {
                     this.board[r][s] = ship.getSymbol();
                 }
             }
-            else{
+
+            else {
                 for (; e <= s; e++) {
                     this.board[r][e] = ship.getSymbol();
                 }
-
             }
         }
     }
