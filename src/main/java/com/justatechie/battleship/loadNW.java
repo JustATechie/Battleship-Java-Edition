@@ -1,3 +1,5 @@
+package com.justatechie.battleship;
+
 public class loadNW {
     char[][] board = new char[10][10];
 

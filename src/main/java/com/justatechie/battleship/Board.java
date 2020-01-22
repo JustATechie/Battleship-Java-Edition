@@ -1,16 +1,11 @@
 package com.justatechie.battleship;
 
-/**
-*
-*/
 public class Board {
 
     protected final static String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     protected final static int defaultSize = 10;
     protected final static String coordinatePattern = "^(?i)[a-z][0-9]$";
-
     protected final int size;
-
     protected char[][] board;
 
     /**
@@ -27,8 +22,8 @@ public class Board {
     }
 
     /**
-     * Construct the {@link board} with the set {@link size}. Fills the board grid
-     * with hypens.
+     * Construct the {board} with the set {size}. Fills the board grid
+     * with hyphens.
      */
     protected void init() {
         this.board = new char[this.size][this.size];
@@ -45,9 +40,9 @@ public class Board {
     /**
      * Validates that a {@link Ship} can be added at the given start/end locations.
      * 
-     * @param ship
-     * @param start
-     * @param end
+     * @param ship ship
+     * @param start starting coordinate
+     * @param end ending coordinate
      * @throws IllegalArgumentException is invalid
      */
     protected void validatePlacement(Ship ship, String start, String end) {
@@ -63,7 +58,7 @@ public class Board {
         boolean col = start.charAt(0) == end.charAt(0);
         boolean row = start.charAt(1) == end.charAt(1);
         // validate that points are straight && are not the same point
-        if (!(col ^ row) /* col XOR row */) {
+        if (col == row /* col XOR row */) {
             throw new IllegalArgumentException("Row=" + row + " & Col=" + col);
         }
 
@@ -94,15 +89,31 @@ public class Board {
             int c = Board.alpha.indexOf(start.charAt(0));
             int s = Integer.parseInt(String.valueOf(start.charAt(1))) - 1;
             int e = Integer.parseInt(String.valueOf(end.charAt(1))) - 1;
-            for (; s <= e; s++) {
-                this.board[s][c] = ship.getSymbol();
+            if (s < e){
+                for (; s <= e; s++) {
+                    this.board[s][c] = ship.getSymbol();
+                }
             }
-        } else {
+            else {
+                for (; e <= s; e++) {
+                    this.board[e][c] = ship.getSymbol();
+                }
+            }
+        }
+        else {
             int r = Integer.parseInt(String.valueOf(start.charAt(1))) - 1;
             int s = Board.alpha.indexOf(start.charAt(0));
             int e = Board.alpha.indexOf(end.charAt(0));
-            for (; s <= e; s++) {
-                this.board[r][s] = ship.getSymbol();
+            if (s < e){
+                for (; s <= e; s++) {
+                    this.board[r][s] = ship.getSymbol();
+                }
+            }
+            else{
+                for (; e <= s; e++) {
+                    this.board[r][e] = ship.getSymbol();
+                }
+
             }
         }
     }
