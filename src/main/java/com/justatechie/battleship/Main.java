@@ -1,8 +1,5 @@
 package com.justatechie.battleship;
 
-import com.com.justatechie.Board;
-import com.com.justatechie.Ship;
-
 import java.io.IOException;
 import java.util.Scanner;
 
