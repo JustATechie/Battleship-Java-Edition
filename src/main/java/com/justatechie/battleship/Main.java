@@ -11,15 +11,13 @@ public class Main {
     public static void main(final String[] args) throws IOException {
         final Scanner sc = new Scanner(System.in);
         final Board board = new Board();
-        // shipPieces player1 = new shipPieces();
-        // shipPieces player2 = new shipPieces();
 
         board.printConsole();
 
         board.addShip(new Ship.Carrier(), "A1", "a5");
         board.addShip(new Ship.Submarine(), "H1", "J1");
         board.addShip(new Ship.Battleship(), "F9", "F6");
-        //board.addShip(new Ship.Destroyer(), "A10", "C10");
+        board.addShip(new Ship.Destroyer(), "A10", "C10");
 
         board.printConsole();
 

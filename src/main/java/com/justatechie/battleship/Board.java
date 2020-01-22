@@ -4,7 +4,7 @@ public class Board {
 
     protected final static String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     protected final static int defaultSize = 10;
-    protected final static String coordinatePattern = "^(?i)[a-z][0-9]$";
+    protected final static String coordinatePattern = "^(?i)[a-z][0-9]{1,10}$";
     protected final int size;
     protected char[][] board;
 
