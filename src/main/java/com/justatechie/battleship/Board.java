@@ -7,6 +7,10 @@ public class Board {
     protected final static String coordinatePattern = "^(?i)[a-z][0-9]{1,10}$";
     protected final int size;
     protected char[][] board;
+    protected int startLetter;
+    protected int startNumber;
+    protected int endLetter;
+    protected int endNumber;
 
     /**
      * default constructor
@@ -37,6 +41,26 @@ public class Board {
 
     }
 
+    protected void coordinateOrientationCheck (String start, String end){
+        startLetter = Board.alpha.indexOf(Character.toString(start.charAt(0)));
+        startNumber = Integer.parseInt(start.substring(1)) - 1;
+        endLetter = Board.alpha.indexOf(Character.toString(end.charAt(0)));
+        endNumber = Integer.parseInt(end.substring(1)) - 1;
+
+        if(startLetter > endLetter || startNumber > endNumber){
+            if(startLetter > endLetter){
+                int tempLetter = startLetter;
+                startLetter = endLetter;
+                endLetter = tempLetter;
+            }
+            else{
+                int tempNumber = startNumber;
+                startNumber = endNumber;
+                endNumber = tempNumber;
+            }
+        }
+    }
+
     /**
      * Validates that a {@link Ship} can be added at the given start/end locations.
      * 
@@ -46,69 +70,62 @@ public class Board {
      * @throws IllegalArgumentException is invalid
      */
     protected void validatePlacement(Ship ship, String start, String end) {
-        start = start.toUpperCase();
-        end = end.toUpperCase();
-
-        // Validate coordinates
+        // Validate coordinates are within grid.
         if (!(start.matches(Board.coordinatePattern) || end.matches(Board.coordinatePattern))) {
             throw new IllegalArgumentException();
         }
 
-        boolean col = start.charAt(0) == end.charAt(0);
-        boolean row = start.charAt(1) == end.charAt(1);
         // validate that points are straight && are not the same point
-        if (col == row /* col XOR row */) {
-            throw new IllegalArgumentException("Row=" + row + " & Col=" + col);
-        }
+            boolean col = startLetter == endLetter;
+            boolean row = startNumber == endNumber;
+            if (col == row /* col XOR row */) {
+                throw new IllegalArgumentException("Row=" + row + " & Col=" + col);
+            }
 
         // Validate distance
-        int dist;
-        if (col) {
-            dist = Integer.parseInt(start.substring(1)) - Integer.parseInt(end.substring(1));
-        } else {
-            dist = Board.alpha.indexOf(start.charAt(0)) - Board.alpha.indexOf(end.charAt(0));
-        }
+            int dist;
+            if (col) {
+                dist = startNumber - endNumber;
+            } else {
+                dist = startLetter - endLetter;
+            }
 
-        if (Math.abs(dist) + 1 != ship.getLength()) {
-            throw new IllegalArgumentException();
-        }
+            if (Math.abs(dist) + 1 != ship.getLength()) {
+                throw new IllegalArgumentException("Coordinate length does not match ship length!");
+            }
+
 
         // TODO! deny overlapping with other ships
         boolean overlap = false;
-        int startLetter = Board.alpha.indexOf(Character.toString(start.charAt(0)));
-        int startNumber = Integer.parseInt(start.substring(1)) - 1;
-        int endLetter = Board.alpha.indexOf(Character.toString(end.charAt(0)));
-        int endNumber = Integer.parseInt(end.substring(1)) - 1;
-
         if(col) {
-            //if(startLetter > startNumber) {
+            if(startLetter > startNumber) {
                 for (int a = 0; a <= ship.getLength(); a++) {
                     if (board[endLetter][endNumber - a] != '-') {
                         throw new IllegalArgumentException("Ships overlap!");
                     }
                 }
-           // }
-           /* else{
+            }
+           else{
                 for (int a = 0; a < ship.getLength(); a++) {
                     if (board[startLetter][startNumber + a] != '-') {
                         throw new IllegalArgumentException("Ships overlap!");
                     }
                 }
             }
-            */
+
 
 
         }
         else{
-            //if(startLetter > startNumber) {
+            if(startLetter > startNumber) {
                 for (int a = 0; a < ship.getLength(); a++) {
                     if (board[endLetter - a][endNumber] != '-') {
                         throw new IllegalArgumentException("Ships overlap!");
                     }
                 }
-          //  }
+            }
 
-          /*  else{
+            else{
                 for (int a = 0; a < ship.getLength(); a++) {
                     if (board[startLetter + a][startNumber] != '-') {
                         throw new IllegalArgumentException("Ships overlap!");
@@ -116,12 +133,13 @@ public class Board {
                 }
             }
 
-           */
+
 
         }
     }
 
     public void addShip(Ship ship, String start, String end) {
+        coordinateOrientationCheck(start, end);
         validatePlacement(ship, start, end);
         start = start.toUpperCase();
         end = end.toUpperCase();
