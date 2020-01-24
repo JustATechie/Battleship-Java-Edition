@@ -97,7 +97,9 @@ public class Board {
 
         // TODO! deny overlapping with other ships
         boolean overlap = false;
-        if(col) {
+
+        /*
+            if(col) {
             if(startLetter > startNumber) {
                 for (int a = 0; a <= ship.getLength(); a++) {
                     if (board[endLetter][endNumber - a] != '-') {
@@ -136,58 +138,35 @@ public class Board {
 
 
         }
+
+         */
     }
 
     public void addShip(Ship ship, String start, String end) {
         coordinateOrientationCheck(start, end);
         validatePlacement(ship, start, end);
-        start = start.toUpperCase();
-        end = end.toUpperCase();
-        String startLetter = Character.toString(start.charAt(0));
-        String startNumber = start.substring(1);
-        String endLetter = Character.toString(end.charAt(0));
-        String endNumber = end.substring(1);
-        boolean col = startLetter.equals(endLetter);
+        boolean col = startLetter == endLetter;
 
         if (col) {
-            int c = Board.alpha.indexOf(startLetter);
-            int s = Integer.parseInt(startNumber) - 1;
-            int e = Integer.parseInt(endNumber) - 1;
-
-            if (s < e) {
-                for (; s <= e; s++) {
-                    this.board[s][c] = ship.getSymbol();
-                }
-            }
-
-            else {
-                for (; e <= s; e++) {
-                    this.board[e][c] = ship.getSymbol();
-                }
+            int c = startLetter;
+            int s = startNumber;
+            int e = endNumber;
+            for (; s <= e; s++) {
+                this.board[s][c] = ship.getSymbol();
             }
         }
 
         else {
-            int r = Integer.parseInt(startNumber) - 1;
-            int s = Board.alpha.indexOf(startLetter);
-            int e = Board.alpha.indexOf(endLetter);
-
-            if (s < e) {
-                for (; s <= e; s++) {
-                    this.board[r][s] = ship.getSymbol();
-                }
-            }
-
-            else {
-                for (; e <= s; e++) {
-                    this.board[r][e] = ship.getSymbol();
-                }
+            int r = startNumber;
+            int s = startLetter;
+            int e = endLetter;
+            for (; s <= e; s++) {
+                this.board[r][s] = ship.getSymbol();
             }
         }
     }
 
     public void printConsole() {
-
         // Print col names
         System.out.print("\t");
         for (int k = 0; k < this.size; k++) {
@@ -198,11 +177,9 @@ public class Board {
         // TODO? convert unicode values into letters.
 
         for (int r = 0; r < this.size; r++) { // row
-
             System.out.print(r + 1 + "\t"); // Print row names
 
             for (int c = 0; c < this.size; c++) { // col
-
                 String rSpacer = "  ";
 
                 if (c < this.size - 1 && this.board[r][c] != '-' && this.board[r][c + 1] != '-') {
@@ -210,12 +187,10 @@ public class Board {
                 }
 
                 System.out.print(board[r][c] + rSpacer);
-
             }
-
             System.out.println();
-
         }
+        System.out.println();
     }
 
     public char[][] getBoard() {

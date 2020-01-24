@@ -1,6 +1,5 @@
 package com.justatechie.battleship;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 /*
@@ -8,17 +7,17 @@ import java.util.Scanner;
  */
 public class Main {
 
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String[] args) {
         final Scanner sc = new Scanner(System.in);
         final Board board = new Board();
 
         board.printConsole();
 
         board.addShip(new Ship.Carrier(), "A1", "A5");
-        board.addShip(new Ship.Submarine(), "H1", "J1");
-        //board.addShip(new Ship.Battleship(), "F9", "F6");
-        //board.addShip(new Ship.Destroyer(), "A10", "C10");
-        //board.addShip(new Ship.PatrolBoat(), "J9", "J10");
+        board.addShip(new Ship.Submarine(), "J1", "H1");
+        board.addShip(new Ship.Battleship(), "F9", "F6");
+        board.addShip(new Ship.Destroyer(), "A10", "C10");
+        board.addShip(new Ship.PatrolBoat(), "J10", "J9");
 
         board.printConsole();
 
