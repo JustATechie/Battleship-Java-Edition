@@ -42,6 +42,8 @@ public class Board {
     }
 
     protected void coordinateOrientationCheck (String start, String end){
+        start = start.toUpperCase();
+        end = end.toUpperCase();
         startLetter = Board.alpha.indexOf(Character.toString(start.charAt(0)));
         startNumber = Integer.parseInt(start.substring(1)) - 1;
         endLetter = Board.alpha.indexOf(Character.toString(end.charAt(0)));
@@ -76,70 +78,44 @@ public class Board {
         }
 
         // validate that points are straight && are not the same point
-            boolean col = startLetter == endLetter;
-            boolean row = startNumber == endNumber;
-            if (col == row /* col XOR row */) {
-                throw new IllegalArgumentException("Row=" + row + " & Col=" + col);
-            }
+        boolean col = startLetter == endLetter;
+        boolean row = startNumber == endNumber;
+        if (col == row /* col XOR row */) {
+            throw new IllegalArgumentException("Row=" + row + " & Col=" + col);
+        }
 
         // Validate distance
-            int dist;
-            if (col) {
-                dist = startNumber - endNumber;
-            } else {
-                dist = startLetter - endLetter;
-            }
+        int dist;
+        if (col) {
+            dist = startNumber - endNumber;
+        }
 
-            if (Math.abs(dist) + 1 != ship.getLength()) {
-                throw new IllegalArgumentException("Coordinate length does not match ship length!");
-            }
+        else {
+            dist = startLetter - endLetter;
+        }
 
-
-        // TODO! deny overlapping with other ships
-        boolean overlap = false;
+        if (Math.abs(dist) + 1 != ship.getLength()) {
+            throw new IllegalArgumentException("Coordinate length does not match ship length!");
+        }
 
         /*
-            if(col) {
-            if(startLetter > startNumber) {
-                for (int a = 0; a <= ship.getLength(); a++) {
-                    if (board[endLetter][endNumber - a] != '-') {
-                        throw new IllegalArgumentException("Ships overlap!");
-                    }
-                }
-            }
-           else{
-                for (int a = 0; a < ship.getLength(); a++) {
-                    if (board[startLetter][startNumber + a] != '-') {
-                        throw new IllegalArgumentException("Ships overlap!");
-                    }
-                }
-            }
-
-
-
-        }
-        else{
-            if(startLetter > startNumber) {
-                for (int a = 0; a < ship.getLength(); a++) {
-                    if (board[endLetter - a][endNumber] != '-') {
-                        throw new IllegalArgumentException("Ships overlap!");
-                    }
-                }
-            }
-
-            else{
-                for (int a = 0; a < ship.getLength(); a++) {
-                    if (board[startLetter + a][startNumber] != '-') {
-                        throw new IllegalArgumentException("Ships overlap!");
-                    }
-                }
-            }
-
-
-
-        }
-
+         * Check for possible collisions
          */
+        if (col) {
+            for(int a = 0; a <= ship.getLength() - 1; a++){
+                if (board[startNumber + a][startLetter] != '-'){
+                    throw new IllegalArgumentException("Ships overlap! This one is the problem: " + ship.getName());
+                }
+            }
+        }
+
+        else {
+            for(int a = 0; a <= ship.getLength() - 1; a++){
+                if (board[startNumber][startLetter + a] != '-'){
+                    throw new IllegalArgumentException("Ships overlap! This one is the problem:" + ship.getName());
+                }
+            }
+        }
     }
 
     public void addShip(Ship ship, String start, String end) {
